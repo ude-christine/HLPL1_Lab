@@ -1,11 +1,3 @@
-/******************************************************************************
-
-                              Online C++ Compiler.
-               Code, Compile, Run and Debug C++ program online.
-Write your code in this editor and press "Run" button to compile and execute it.
-
-*******************************************************************************/
-
 //_____________________________DRILL6 (9.4.1)______________________________________
 /*
    This drill simply involves getting the sequence of versions of Date to work.
