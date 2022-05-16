@@ -1,6 +1,5 @@
 #include "std_lib_facilities.h"
 
-
 constexpr char number = '8';
 constexpr char quit = 'x';
 constexpr char print = '=';
@@ -20,43 +19,34 @@ double term();
 
 double primary();
 
-class variable {
-  public:
-  string name;
-  double value;
+class variable { // This class holds variables names and values
+  public: // This indicates the properties are public
+  string name; // This property is the variable's name
+  double value; // This property is the variable's value
 };
 
 vector<variable> var_table;
 
-bool is_declared(string var) {
+bool is_declared(string var) { // This function checks if a variable is defined. It returns true if it is defined and false if it is not.
   for (auto v: var_table)
     if (v.name == var) return true;
   return false;
 }
 
-double define_name(string var, double val) {
+double define_name(string var, double val) { // This function defines a variable and returns the value of the variable
   if (is_declared(var)) error("declared twice"); // Check if the variable had been already declared
   var_table.push_back(variable{var, val});
   return val;
 }
 
-double get_value(string val) {
+double get_value(string val) { // This function gets value of a declared variable
   for (auto v: var_table)
     if (v.name == val) return v.value;
   error("Variable not found");
   return 0;
 }
 
-void set_value(string var, double val) {
-  for (auto &v: var_table)
-    if (v.name == var) {
-      v.value = val;
-      return;
-    }
-  error("Variable not defined");
-}
-
-class Token {
+class Token { // This class holds operators, operands and names of variables
   public:
   char kind;
   double value;
@@ -71,7 +61,7 @@ class Token {
   Token(char ch, string n) : kind(ch), name(n) {}
 };
 
-class Token_stream {
+class Token_stream { // Stream of tokens
   public:
   Token_stream();
 
@@ -132,7 +122,7 @@ Token Token_stream::get() { // Get characters from cin (cin is character input)
       return Token(number, val);
     }
     default: {
-      if (isalpha(ch)) { // If it is a letter
+      if (isalpha(ch)) { // This checks if the character is an alphabet
         string s;
         s += ch;
         while (cin.get(ch) && (isalpha(ch) || isdigit(ch))) s += ch;
@@ -140,13 +130,13 @@ Token Token_stream::get() { // Get characters from cin (cin is character input)
         if (s == declkey) return Token(let); // If user declares the variable then return '#'
         if (s == squareroot) return Token(sroot);
         if (s == power) return Token(bpower);
-        if (s == quitkey) return Token(quit); // Quit the program
+        if (s == quitkey) return Token(quit); // This quits the program
         else if (is_declared(s))
           return Token(number, get_value(s));
         return Token(name, s);
       }
 
-      error("Bad token");
+      error("Bad token"); // If none of the cases above are handled, this it will be considered a bad token.
       return 0;
     }
   }
@@ -191,7 +181,7 @@ double statement() { // Distinguishes between declarations and expressions
     case let:
       return declaration();
     default:
-      ts.putback(t); // It decreases the curent location in the stream by one character
+      ts.putback(t);
       return expression();
   }
 
@@ -303,25 +293,25 @@ double term() { // Performs '*', '/' '%' operations
   Token t = ts.get();
   while (true) {
     switch (t.kind) {
-      case '*':
+      case '*': // Performs multiplication operation.
         left *= primary();
         t = ts.get();
         break;
-      case '/':
+      case '/': // Performs division operation.
         left /= primary();
         t = ts.get();
         break;
-      case '%': {
+      case '%': { // Performs modulo operation
 
         int i1 = narrow_cast<int>(left);
         int i2 = narrow_cast<int>(primary());
-        if (i2 == 0) error("Zero divider in %");
+        if (i2 == 0) error("Zero divider in %"); // This checks if the divider is 0 and throws and error
         left = i1 % i2;
         t = ts.get();
         break;
       }
       default:
-        ts.putback(t);
+        ts.putback(t);  // If nothing was done putback to the stream
         return left;
     }
   }
@@ -333,10 +323,10 @@ double expression() { // Performs '+' and '-' operations
 
   while (true) {
     switch (t.kind) {
-      case '+':
+      case '+': // This performs an addition operation
         t = ts.get();
         break;
-      case '-':
+      case '-': // This performs a subtraction operation
         left -= term();
         t = ts.get();
         break;
