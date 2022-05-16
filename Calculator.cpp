@@ -191,7 +191,7 @@ double statement() { // Distinguishes between declarations and expressions
     case let:
       return declaration();
     default:
-      ts.putback(t);
+      ts.putback(t); // It decreases the curent location in the stream by one character
       return expression();
   }
 
