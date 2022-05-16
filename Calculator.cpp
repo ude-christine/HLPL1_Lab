@@ -47,18 +47,18 @@ double get_value(string val) { // This function gets value of a declared variabl
 }
 
 class Token { // This class holds operators, operands and names of variables
-  public:
+  public: // This indicates that the properties are public.
   char kind;
   double value;
   string name;
 
   Token() : kind(0) {}
 
-  Token(char ch) : kind(ch), value(0) {}
+  Token(char ch) : kind(ch), value(0) {}   // This holds the operator
 
-  Token(char ch, double val) : kind(ch), value(val) {}
+  Token(char ch, double val) : kind(ch), value(val) {} // This holds the operand
 
-  Token(char ch, string n) : kind(ch), name(n) {}
+  Token(char ch, string n) : kind(ch), name(n) {} // This holds the variable name
 };
 
 class Token_stream { // Stream of tokens
@@ -289,7 +289,7 @@ double primary() {
 
 
 double term() { // Performs '*', '/' '%' operations
-  double left = primary();
+  double left = primary(); // Left here is just a variable name. Which holds the result of the primary function.
   Token t = ts.get();
   while (true) {
     switch (t.kind) {
